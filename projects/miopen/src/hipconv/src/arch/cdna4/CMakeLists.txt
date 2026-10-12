@@ -14,12 +14,6 @@ hipconv_autoshard(ARCH         cdna4
                   KERNEL       direct/direct_l1/kernel.h
                   NUM_SHARDS   ${HIPCONV_NUM_SHARDS})
 hipconv_autoshard(ARCH         cdna4
-                  NAMESPACE    direct_wgrad
-                  KERNEL_CLASS DirectWgrad_ConvKernel
-                  CONFIG_TABLE direct/direct_wgrad/config_table.h
-                  KERNEL       direct/direct_wgrad/kernel.h
-                  NUM_SHARDS   ${HIPCONV_NUM_SHARDS})
-hipconv_autoshard(ARCH         cdna4
                   NAMESPACE    depthwise_1d_toeplitz
                   KERNEL_CLASS Depthwise_1D_Toeplitz_ConvKernel
                   CONFIG_TABLE depthwise/depthwise_1d_toeplitz/config_table.h
