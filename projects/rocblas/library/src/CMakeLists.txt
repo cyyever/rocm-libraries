@@ -700,6 +700,13 @@ if( BUILD_WITH_TENSILE )
 
   if( BUILD_SHARED_LIBS )
     target_link_libraries( rocblas PRIVATE TensileHost )
+    if( TENSILE_USE_LLVM )
+      # Keep this cross-library YAML loader out of the static TensileHost
+      # archive so --exclude-libs=ALL does not hide its explicit export.
+      target_sources( rocblas PRIVATE "${Tensile_SOURCE_DIR}/lib/source/llvm/Loading.cpp" )
+      get_target_property( TensileHost_INCLUDE_DIRS TensileHost INCLUDE_DIRECTORIES )
+      target_include_directories( rocblas PRIVATE ${TensileHost_INCLUDE_DIRS} )
+    endif()
   endif()
 
   if( NOT BUILD_SHARED_LIBS )

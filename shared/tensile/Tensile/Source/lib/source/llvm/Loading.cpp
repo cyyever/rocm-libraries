@@ -98,7 +98,7 @@ namespace Tensile
         return rv;
     }
 
-    template std::shared_ptr<SolutionLibrary<ContractionProblem, ContractionSolution>>
+    template TENSILE_API std::shared_ptr<SolutionLibrary<ContractionProblem, ContractionSolution>>
         LLVMLoadLibraryFile<ContractionProblem, ContractionSolution>(
             std::string const& filename, const std::vector<LazyLoadingInit>& preloaded);
 
