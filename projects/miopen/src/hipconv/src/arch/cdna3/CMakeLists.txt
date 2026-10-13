@@ -1,3 +1,3 @@
 include(GpuArch)
 
-hipconv_add_arch_lib(cdna3 TARGETS gfx942)
+hipconv_add_arch_lib(cdna3 NPI TARGETS gfx942)

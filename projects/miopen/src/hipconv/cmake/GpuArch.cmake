@@ -172,6 +172,7 @@ endfunction()
 function(hipconv_make_arch_registry targets out_file_name)
     set(HIPCONV_REG_DECLS "")
     set(HIPCONV_REG_ROWS "")
+    set(HIPCONV_REG_SIZE 0)
     foreach(target IN LISTS targets)
         get_target_property(name ${target} HIPCONV_ARCH_NAME)
         get_target_property(gpus ${target} HIPCONV_ARCH_TARGETS)
@@ -182,8 +183,12 @@ function(hipconv_make_arch_registry targets out_file_name)
             string(APPEND HIPCONV_REG_ROWS
                 "{ \"${gpu}\", algos_${name}, },\n"
             )
+            math(EXPR HIPCONV_REG_SIZE "${HIPCONV_REG_SIZE} + 1")
         endforeach()
     endforeach()
+    if(NOT HIPCONV_REG_ROWS)
+        set(HIPCONV_REG_ROWS "{ \"\", {}, },\n")
+    endif()
     configure_file(
         ${HIPCONV_ROOT}/src/arch_registry.cpp.in
         ${out_file_name}

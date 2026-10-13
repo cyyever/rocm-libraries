@@ -80,8 +80,8 @@ endif()
 option(HIPCONV_ENABLE_CDNA4_DW_2D_TOEPLITZ
     "Build the experimental cdna4 depthwise 2D patch-Toeplitz kernel (slower than 1D; not auto-selected)" OFF)
 
-# Every arch in the tree is built, whatever this build targets: the set of arch
-# directories is a property of the snapshot, the GPU list is not.
+# Each architecture directory declares its supported GPU targets. NPI
+# architectures are omitted when this build serves none of their GPUs.
 file(GLOB _hipconv_arch_directories RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "src/arch/*")
 set(_arch_targets "")
 foreach(_arch_dir IN LISTS _hipconv_arch_directories)
@@ -98,10 +98,6 @@ foreach(_arch_dir IN LISTS _hipconv_arch_directories)
         endif()
     endforeach()
 endforeach()
-if(NOT _arch_targets)
-    message(FATAL_ERROR "hipconv: no architectures found under src/arch")
-endif()
-
 # ---- hipconv static library ----
 set(_arch_registry "src/arch_registry.cpp")
 hipconv_make_arch_registry("${_arch_targets}" "${_arch_registry}")

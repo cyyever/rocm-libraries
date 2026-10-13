@@ -1,6 +1,6 @@
 include(GpuArch)
 
-hipconv_add_arch_lib(cdna4 TARGETS gfx950)
+hipconv_add_arch_lib(cdna4 NPI TARGETS gfx950)
 hipconv_autoshard(ARCH         cdna4
                   NAMESPACE    direct
                   KERNEL_CLASS Direct_F16_ConvKernel

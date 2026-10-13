@@ -42,8 +42,8 @@ __global__ void device_code_probe() {}
 
 // Whether this binary carries device code for the current GPU.
 //
-// The registry covers every arch in the tree, so a hit there does not mean the
-// kernels were built here. Cached per device; architectures can differ per GPU.
+// The registry contains only architectures selected for this build. Cached per
+// device because architectures can differ per GPU in a multi-GPU process.
 bool device_code_available()
 {
     int device = 0;
