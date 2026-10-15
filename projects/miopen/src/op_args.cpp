@@ -25,8 +25,21 @@
  *******************************************************************************/
 #include <ostream>
 #include <miopen/fusion.hpp>
+#include <miopen/fusion/fusion_invoke_params.hpp>
 
 namespace miopen {
+
+OperatorArgs::OperatorArgs()                              = default;
+OperatorArgs::~OperatorArgs()                             = default;
+OperatorArgs::OperatorArgs(OperatorArgs&&) noexcept       = default;
+OperatorArgs& OperatorArgs::operator=(OperatorArgs&&) noexcept = default;
+
+void OperatorArgs::SetArg(size_t idx, std::unique_ptr<fusion::FusionOpInvokeParamBase>&& arg)
+{
+    if(params.size() < (idx + 1))
+        params.resize(idx + 1);
+    params[idx] = std::move(arg);
+}
 
 // operator args
 std::ostream& operator<<(std::ostream& stream, const OperatorArgs& /* x */) { return stream; }

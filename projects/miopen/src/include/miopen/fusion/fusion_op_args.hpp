@@ -34,16 +34,20 @@ namespace fusion {
 struct FusionOpInvokeParamBase;
 } // namespace fusion
 
+// FusionOpInvokeParamBase is incomplete here. Every member that can destroy a
+// unique_ptr<FusionOpInvokeParamBase> is defined out of line in op_args.cpp,
+// where the type is complete; inline definitions fail to compile once the
+// vector/unique_ptr members are constexpr (C++23).
 struct OperatorArgs : miopenOperatorArgs
 {
+    OperatorArgs();
+    ~OperatorArgs();
+    OperatorArgs(OperatorArgs&&) noexcept;
+    OperatorArgs& operator=(OperatorArgs&&) noexcept;
+
     std::vector<std::unique_ptr<fusion::FusionOpInvokeParamBase>> params;
     friend std::ostream& operator<<(std::ostream& stream, const OperatorArgs& x);
-    void SetArg(size_t idx, std::unique_ptr<fusion::FusionOpInvokeParamBase>&& arg)
-    {
-        if(params.size() < (idx + 1))
-            params.resize(idx + 1);
-        params[idx] = std::move(arg);
-    }
+    void SetArg(size_t idx, std::unique_ptr<fusion::FusionOpInvokeParamBase>&& arg);
 };
 
 } // namespace miopen
